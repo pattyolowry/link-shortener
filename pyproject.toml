@@ -1,0 +1,9 @@
+[project]
+name = "app"
+version = "0.1.0"
+description = ""
+requires-python = ">=3.10,<4.0"
+dependencies = [
+    "fastapi[standard]<1.0.0,>=0.114.2",
+    "pydantic>2.0",
+]
