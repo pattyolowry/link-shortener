@@ -10,6 +10,6 @@ class NewLinkResponse(BaseModel):
 class Url(BaseModel):
     fullUrl: AnyUrl
 
-@router.post("/", response_model=NewLinkResponse)
+@router.post("/", response_model=NewLinkResponse, status_code=201)
 def create_short_url(url: Url):
     return { "fullUrl": url.fullUrl, "shortUrl": "http://du.mmy/123456"}
