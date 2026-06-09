@@ -1,3 +1,6 @@
+# Ref: https://fastapi.tiangolo.com/deployment/docker/
+# Ref: https://docs.astral.sh/uv/guides/integration/docker/
+
 # Install python image and uv
 FROM python:3.12-slim-bookworm
 COPY --from=ghcr.io/astral-sh/uv:0.11.5 /uv /uvx /bin/
