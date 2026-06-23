@@ -1,8 +1,30 @@
 services:
-  api:
+  api_0:
     image: link-shortener-api
     build:
       context: .
       dockerfile: Dockerfile
+    command: fastapi dev app/main.py --host 0.0.0.0 --port 80
+    environment:
+      SHARD_ID: 0
+      REDIS_URL: redis://redis:6379
     ports:
       - "8000:80"
+    volumes:
+      - ./app:/app/app
+    depends_on:
+      - redis
+
+  redis:
+    image: redis:8
+    container_name: my-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    environment:
+      - REDIS_ARGS=--appendonly yes
+    restart: unless-stopped
+
+volumes:
+  redis_data:
