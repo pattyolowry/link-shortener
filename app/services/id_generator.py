@@ -1,8 +1,8 @@
 import os
 from .redis import redis_client
 
-SHARD_BITS = 10
-SEQUENCE_BITS = 54
+SHARD_BITS = 14
+SEQUENCE_BITS = 50
 
 MAX_SHARD_ID = (1 << SHARD_BITS) - 1
 MAX_SEQUENCE = (1 << SEQUENCE_BITS) - 1
@@ -17,7 +17,8 @@ class ShortIDGenerator:
 
     async def get_new_id(self) -> int:
         sequence = await self.redis.incrby(self.redis_counter_key, 1)
-        unique_id = (self.shard_id << SEQUENCE_BITS) | (sequence)
+        #unique_id = (self.shard_id << SEQUENCE_BITS) | (sequence)
+        unique_id = (sequence << SHARD_BITS) | self.shard_id
         return self._base62_encode(unique_id)
     
     def _base62_encode(self, number: int) -> str:
