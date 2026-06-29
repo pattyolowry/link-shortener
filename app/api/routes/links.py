@@ -1,5 +1,5 @@
-from fastapi import APIRouter, Depends
-from sqlmodel import Session
+from fastapi import APIRouter, Depends, HTTPException
+from sqlmodel import Session, select
 from fastapi.responses import RedirectResponse
 from pydantic import BaseModel, AnyUrl
 from typing import Annotated
@@ -32,5 +32,9 @@ async def create_short_url(url: Url, session: SessionDep):
     return { "fullUrl": url.fullUrl, "shortUrl": f"http://du.mmy/{short_id}"}
 
 @router.get("/{short_id}", response_class=RedirectResponse, status_code=302)
-async def redirect_short_url(short_id: str):
-    return "https://www.wikipedia.org/"  
+async def redirect_short_url(short_id: str, session: SessionDep):
+    query = select(Link).where(Link.short_id == short_id)
+    link = session.exec(query).first()
+    if not link:
+        raise HTTPException(status_code=404, detail="Link not found")
+    return link.full_url
