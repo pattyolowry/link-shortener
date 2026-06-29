@@ -9,6 +9,7 @@ services:
       SHARD_ID: 1
       REDIS_URL: redis://redis:6379
       DATABASE_URL: postgresql+psycopg://postgres:postgres@postgres:5432/link_shortener
+      BASE_URL: http://127.0.0.1:8000
     ports:
       - "8000:80"
     volumes:

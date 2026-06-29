@@ -1,3 +1,4 @@
+import os
 from fastapi import APIRouter, Depends, HTTPException
 from sqlmodel import Session, select
 from fastapi.responses import RedirectResponse
@@ -10,6 +11,10 @@ from ...models import Link
 SessionDep = Annotated[Session, Depends(get_session)]
 
 router = APIRouter()
+
+BASE_URL = os.getenv(
+    "BASE_URL", "http://dum.my/"
+)
 
 class NewLinkResponse(BaseModel):
     fullUrl: AnyUrl
@@ -29,7 +34,7 @@ async def create_short_url(url: Url, session: SessionDep):
     session.commit()
     session.refresh(link)
 
-    return { "fullUrl": url.fullUrl, "shortUrl": f"http://du.mmy/{short_id}"}
+    return { "fullUrl": url.fullUrl, "shortUrl": f"{BASE_URL}/links/{short_id}"}
 
 @router.get("/{short_id}", response_class=RedirectResponse, status_code=302)
 async def redirect_short_url(short_id: str, session: SessionDep):
