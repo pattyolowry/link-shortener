@@ -11,3 +11,13 @@ class Link(SQLModel, table=True):
         nullable=False
     )
 
+class LinkNoIndex(SQLModel, table=True):
+    __tablename__ = "links_no_index"
+    id: int | None = Field(default=None, primary_key=True)
+    short_id: str
+    full_url: str
+    created_at: datetime = Field(
+        default_factory=lambda: datetime.now(timezone.utc),
+        nullable=False
+    )
+
