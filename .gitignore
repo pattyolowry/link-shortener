@@ -17,3 +17,6 @@ uv.lock
 .DS_Store
 .vscode/
 .idea/
+
+# Other
+seed_links.csv
