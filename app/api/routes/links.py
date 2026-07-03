@@ -26,7 +26,7 @@ class Url(BaseModel):
 @router.post("", response_model=NewLinkResponse, status_code=201)
 async def create_short_url(url: Url, session: SessionDep):
     short_id = await short_id_generator.get_new_id()
-    link = LinkNoIndex(
+    link = Link(
         short_id=short_id,
         full_url=str(url.fullUrl)
     )
@@ -38,7 +38,7 @@ async def create_short_url(url: Url, session: SessionDep):
 
 @router.get("/{short_id}", response_class=RedirectResponse, status_code=302)
 def redirect_short_url(short_id: str, session: SessionDep):
-    query = select(LinkNoIndex).where(LinkNoIndex.short_id == short_id)
+    query = select(Link).where(Link.short_id == short_id)
     link = session.exec(query).first()
     if not link:
         raise HTTPException(status_code=404, detail="Link not found")
