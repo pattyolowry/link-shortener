@@ -6,7 +6,7 @@ from pydantic import BaseModel, AnyUrl
 from typing import Annotated
 from ...services.clients import short_id_generator
 from ...services.db import get_session
-from ...models import Link
+from ...models import Link, LinkNoIndex
 
 SessionDep = Annotated[Session, Depends(get_session)]
 
@@ -26,7 +26,7 @@ class Url(BaseModel):
 @router.post("", response_model=NewLinkResponse, status_code=201)
 async def create_short_url(url: Url, session: SessionDep):
     short_id = await short_id_generator.get_new_id()
-    link = Link(
+    link = LinkNoIndex(
         short_id=short_id,
         full_url=str(url.fullUrl)
     )
@@ -37,8 +37,8 @@ async def create_short_url(url: Url, session: SessionDep):
     return { "fullUrl": url.fullUrl, "shortUrl": f"{BASE_URL}/links/{short_id}"}
 
 @router.get("/{short_id}", response_class=RedirectResponse, status_code=302)
-async def redirect_short_url(short_id: str, session: SessionDep):
-    query = select(Link).where(Link.short_id == short_id)
+def redirect_short_url(short_id: str, session: SessionDep):
+    query = select(LinkNoIndex).where(LinkNoIndex.short_id == short_id)
     link = session.exec(query).first()
     if not link:
         raise HTTPException(status_code=404, detail="Link not found")

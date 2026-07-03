@@ -10,20 +10,24 @@ const HOT_LINK_COUNT = Math.floor(TOTAL_LINKS * HOT_LINKS_PERCENT);
 const BASE62_ALPHABET =
   "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 
-const SHARD_BITS = 14;
+const SHARD_BITS = 14n;
+const SEQUENCE_BITS = 50n;
+
+const MAX_SHARD_ID = (1n << SHARD_BITS) - 1n;
+const MAX_SEQUENCE = (1n << SEQUENCE_BITS) - 1n;
 
 const base62Encode = (number) => {
-  if (number == 0) {
+  if (number == 0n) {
     return BASE62_ALPHABET[0];
   }
 
-  const base = BASE62_ALPHABET.length;
+  const base = 62n;
   let chars = [];
 
-  while (number > 0) {
+  while (number > 0n) {
     const remainder = number % base;
     chars.push(BASE62_ALPHABET[remainder]);
-    number = Math.floor(number / base);
+    number = number / base;
   }
 
   return chars.reverse().join("");
@@ -52,34 +56,38 @@ export const options = {
   scenarios: {
     redirects: {
       executor: "ramping-arrival-rate",
-      startRate: 100,
+      startRate: 105,
       timeUnit: "1s",
-      preAllocatedVUs: 500,
-      maxVUs: 5000,
+      preAllocatedVUs: 200,
+      maxVUs: 500,
       stages: [
-        { duration: "1m", target: 100 },
-        { duration: "1m", target: 500 },
-        { duration: "1m", target: 1000 },
-        { duration: "1m", target: 2000 },
-        { duration: "1m", target: 5000 },
-        { duration: "1m", target: 10000 },
+        //{ duration: "30s", target: 50 },
+        { duration: "300s", target: 105 },
       ],
     },
   },
   thresholds: {
     http_req_failed: ["rate<0.01"],
-    http_req_duration: ["p(95)<500"],
+    http_req_duration: ["p(95)<100"],
   },
 };
 
 export default function () {
   const sequence = chooseLinkId();
   const shardId = chooseShardId();
-  const uniqueId = (sequence << SHARD_BITS) | shardId;
+  const uniqueId = (BigInt(sequence) << SHARD_BITS) | BigInt(shardId);
   const shortId = base62Encode(uniqueId);
+  if (!shortId) {
+    throw new Error(
+      `Generated empty shortId for sequence=${sequence}, shard=${shardId}, uniqueId=${uniqueId}`,
+    );
+  }
 
   const res = http.get(`${BASE_URL}/links/${shortId}`, {
     redirects: 0,
+    tags: {
+      name: "GET /links/{short_id}",
+    },
   });
 
   check(res, {
