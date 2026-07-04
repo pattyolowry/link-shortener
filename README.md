@@ -19,8 +19,14 @@ Throughput: 105 RPS \
 P95 Latency: 38.51ms
 <img width="1640" height="1438" alt="image" src="https://github.com/user-attachments/assets/cce1ab6b-a935-43bf-b002-3676e114d071" />
 
-### DB w/ 1mil rows and index on short_id
+### Index on short_id
 
 Throughput: 375 RPS \
 P95 Latency: 54.74ms
 <img width="1616" height="1400" alt="image" src="https://github.com/user-attachments/assets/7cbdf04f-ec1e-483c-ab07-ebd946ec440e" />
+
+### 2 workers
+
+Throughput: 650 RPS \
+P95 Latency: 50.01ms
+<img width="1654" height="1434" alt="image" src="https://github.com/user-attachments/assets/f63c5365-2279-4b44-b8bd-f0f0bebb811c" />
