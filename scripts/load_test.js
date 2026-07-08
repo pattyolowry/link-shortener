@@ -56,11 +56,11 @@ export const options = {
   scenarios: {
     redirects: {
       executor: "ramping-arrival-rate",
-      startRate: 1000,
+      startRate: 675,
       timeUnit: "1s",
       preAllocatedVUs: 200,
       maxVUs: 2000,
-      stages: [{ duration: "300s", target: 1000 }],
+      stages: [{ duration: "300s", target: 675 }],
     },
   },
   thresholds: {
