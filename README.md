@@ -32,9 +32,9 @@ P95 Latency: 54.74ms
 
 ### 2 workers
 
-Throughput: 650 RPS \
-P95 Latency: 50.01ms
-<img width="1654" height="1434" alt="image" src="https://github.com/user-attachments/assets/f63c5365-2279-4b44-b8bd-f0f0bebb811c" />
+Throughput: 675 RPS \
+P95 Latency: 68.52ms
+<img width="1630" height="1418" alt="image" src="https://github.com/user-attachments/assets/87b7bcdb-2ea2-4f32-98d3-c2aae589b21e" />
 
 ### 4 Workers
 
