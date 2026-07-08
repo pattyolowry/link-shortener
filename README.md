@@ -13,6 +13,11 @@ docker compose exec postgres psql -U postgres -d link_shortener
 
 
 ## Load Test Results
+
+API Services: 4 vCPU / 2GB MEM
+Postgres: 2 vCPU / 3GB MEM
+Redis: 0.5 vCPU / 512MB MEM
+
 ### Baseline (DB w/ 1mil rows and no indexes)
 
 Throughput: 105 RPS \
@@ -33,7 +38,8 @@ P95 Latency: 50.01ms
 
 ### 4 Workers
 
-Throughput: 1100 RPS \
-P95 Latency: 18.87ms
-<img width="1630" height="1408" alt="image" src="https://github.com/user-attachments/assets/f81993e9-c298-45d0-afd3-f144b8f9fbc9" />
+Throughput: 1000 RPS \
+P95 Latency: 7.01ms
+<img width="1634" height="1410" alt="image" src="https://github.com/user-attachments/assets/80066024-5fda-456a-afc2-1873ec0f3322" />
+
 
