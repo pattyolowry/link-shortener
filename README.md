@@ -14,8 +14,8 @@ docker compose exec postgres psql -U postgres -d link_shortener
 
 ## Load Test Results
 
-API Services: 4 vCPU / 2GB MEM
-Postgres: 2 vCPU / 3GB MEM
+API Services: 4 vCPU / 2GB MEM \
+Postgres: 2 vCPU / 3GB MEM \
 Redis: 0.5 vCPU / 512MB MEM
 
 ### Baseline (DB w/ 1mil rows and no indexes)
