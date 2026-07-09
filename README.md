@@ -26,9 +26,9 @@ P95 Latency: 38.51ms
 
 ### Index on short_id
 
-Throughput: 375 RPS \
-P95 Latency: 54.74ms
-<img width="1616" height="1400" alt="image" src="https://github.com/user-attachments/assets/7cbdf04f-ec1e-483c-ab07-ebd946ec440e" />
+Throughput: 400 RPS \
+P95 Latency: 4.02ms
+<img width="1642" height="1400" alt="image" src="https://github.com/user-attachments/assets/2c9b0812-cc68-44bb-9c70-38b17a9f9ec5" />
 
 ### 2 workers
 
