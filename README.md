@@ -48,7 +48,7 @@ P95 Latency: 7.01ms
 - `pool_size = 4`
 - `max_overflow = 4`
 
-Before adding more API instances, PgBouncer should be introduced between the app and Postgres, so that PgBouncer can manage a shared connection pool instead of each instance managing its own connectin pool.
+Before adding more API instances, PgBouncer should be introduced between the app and Postgres, so that PgBouncer can manage a shared connection pool instead of each instance managing its own connection pool.
 
 Throughput: 1600 RPS \
 P95 Latency: 27.88ms
