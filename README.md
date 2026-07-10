@@ -42,7 +42,17 @@ Throughput: 1000 RPS \
 P95 Latency: 7.01ms
 <img width="1634" height="1410" alt="image" src="https://github.com/user-attachments/assets/80066024-5fda-456a-afc2-1873ec0f3322" />
 
-### Bottlenecks Encountered
+### 8 Workers
+
+*Note:* at this point the app started exceeding default Postgres connection limits, so I limited each worker to 8 connections, for a maximum of 64 connections:
+- `pool_size = 4`
+- `max_overflow = 4`
+
+Throughput: 1600 RPS \
+P95 Latency: 27.88ms
+<img width="1676" height="1422" alt="image" src="https://github.com/user-attachments/assets/e1443993-b2f0-4ba0-9f23-06d1a3a4edef" />
+
+## Bottlenecks Encountered
 
 - CPU exhaustion on Postgres server when not using index on short_id
 - CPU exhaustion on API server (can reduce this bottleneck up to a point by increasing number of workers)
