@@ -42,4 +42,8 @@ Throughput: 1000 RPS \
 P95 Latency: 7.01ms
 <img width="1634" height="1410" alt="image" src="https://github.com/user-attachments/assets/80066024-5fda-456a-afc2-1873ec0f3322" />
 
+### Bottlenecks Encountered
 
+- CPU exhaustion on Postgres server when not using index on short_id
+- CPU exhaustion on API server (can reduce this bottleneck up to a point by increasing number of workers)
+- Exhausted Postgres client connections upon increasing to 8 workers (default max connections is 100)
