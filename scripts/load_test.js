@@ -56,11 +56,11 @@ export const options = {
   scenarios: {
     redirects: {
       executor: "ramping-arrival-rate",
-      startRate: 400,
+      startRate: 1600,
       timeUnit: "1s",
       preAllocatedVUs: 200,
       maxVUs: 2000,
-      stages: [{ duration: "300s", target: 400 }],
+      stages: [{ duration: "300s", target: 1600 }],
     },
   },
   thresholds: {
@@ -87,7 +87,13 @@ export default function () {
     },
   });
 
-  check(res, {
+  const passed = check(res, {
     "status is 302": (r) => r.status === 302,
   });
+
+  if (!passed) {
+    console.error(
+      `Unexpected response: status=${res.status} url=${res.url} body=${res.body}`,
+    );
+  }
 }
