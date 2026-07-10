@@ -20,9 +20,9 @@ Redis: 0.5 vCPU / 512MB MEM
 
 ### Baseline (DB w/ 1mil rows and no indexes)
 
-Throughput: 105 RPS \
-P95 Latency: 38.51ms
-<img width="1640" height="1438" alt="image" src="https://github.com/user-attachments/assets/cce1ab6b-a935-43bf-b002-3676e114d071" />
+Throughput: 40 RPS \
+P95 Latency: 19.57ms
+<img width="1654" height="1416" alt="image" src="https://github.com/user-attachments/assets/690aebad-5f66-42bb-a5a1-dd2322a6776b" />
 
 ### Index on short_id
 
