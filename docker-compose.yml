@@ -9,7 +9,7 @@ services:
     environment:
       SHARD_ID: 1
       REDIS_URL: redis://redis:6379
-      DATABASE_URL: postgresql+psycopg://postgres:postgres@postgres:5432/link_shortener
+      DATABASE_URL: postgresql+psycopg://postgres:postgres@pgbouncer:5432/link_shortener
       BASE_URL: http://127.0.0.1:8000
     ports:
       - "8000:80"
@@ -22,7 +22,7 @@ services:
 
   redis:
     image: redis:8
-    container_name: my-redis
+    container_name: redis
     ports:
       - "6379:6379"
     volumes:
@@ -45,6 +45,29 @@ services:
       - postgres_data:/var/lib/postgresql/18/docker
     cpus: "2.0"
     mem_limit: 3g
+    restart: unless-stopped
+
+  pgbouncer:
+    image: edoburu/pgbouncer
+    container_name: pgbouncer
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_NAME: link_shortener
+      POOL_MODE: transaction
+      MAX_CLIENT_CONN: 500
+      DEFAULT_POOL_SIZE: 30
+      RESERVE_POOL_SIZE: 10
+      AUTH_TYPE: scram-sha-256
+      ADMIN_USERS: postgres
+    depends_on:
+      - postgres
+    ports:
+      - "6432:5432"
+    cpus: "0.5"
+    mem_limit: 256m
     restart: unless-stopped
 
 volumes:
