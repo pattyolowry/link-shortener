@@ -54,6 +54,14 @@ Throughput: 1600 RPS \
 P95 Latency: 27.88ms
 <img width="1676" height="1422" alt="image" src="https://github.com/user-attachments/assets/e1443993-b2f0-4ba0-9f23-06d1a3a4edef" />
 
+### Add PgBouncer
+
+No expected performance improvement, just easier to manage the connection pool for Postgres
+
+Throughput: 1450 RPS \
+P95 Latency: 5.29ms
+<img width="1678" height="1542" alt="image" src="https://github.com/user-attachments/assets/42eec88d-9809-4c11-9454-9fb0ea258616" />
+
 ## Bottlenecks Encountered
 
 - CPU exhaustion on Postgres server when not using index on short_id
