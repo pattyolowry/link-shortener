@@ -62,6 +62,15 @@ Throughput: 1450 RPS \
 P95 Latency: 5.29ms
 <img width="1678" height="1542" alt="image" src="https://github.com/user-attachments/assets/42eec88d-9809-4c11-9454-9fb0ea258616" />
 
+### Additional Optimizations
+- Disable default logs
+- Use SQLAlchemy Core for hot path. Avoids ORM model hydration and can reduce Python overhead.
+- Tune pool size. 10 persistent connections with 5 overflow. Reduces overhead from connections churning.
+
+Throughput: 2000 RPS \
+P95 Latency: 5.79ms
+<img width="1716" height="1442" alt="image" src="https://github.com/user-attachments/assets/b6192725-d12d-428d-99ba-c89fa793a166" />
+
 ## Bottlenecks Encountered
 
 - CPU exhaustion on Postgres server when not using index on short_id
