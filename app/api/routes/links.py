@@ -1,13 +1,13 @@
 import os
 from fastapi import APIRouter, Depends, HTTPException
-from sqlmodel import Session, select
-from sqlalchemy import text
+from sqlmodel import Session
 from fastapi.responses import RedirectResponse
 from pydantic import BaseModel, AnyUrl
 from typing import Annotated
 from ...services.clients import short_id_generator
-from ...services.db import get_session
-from ...models import Link, LinkNoIndex
+from ...services.db import get_session, get_session_factory
+from ...models import Link
+from ...services.links import get_full_url
 
 SessionDep = Annotated[Session, Depends(get_session)]
 
@@ -38,11 +38,9 @@ async def create_short_url(url: Url, session: SessionDep):
     return { "fullUrl": url.fullUrl, "shortUrl": f"{BASE_URL}/links/{short_id}"}
 
 @router.get("/{short_id}", response_class=RedirectResponse, status_code=302)
-def redirect_short_url(short_id: str, session: SessionDep):
-    full_url = session.exec(
-        text("SELECT full_url FROM links WHERE short_id = :short_id"),
-        params={"short_id": short_id},
-    ).first()
+def redirect_short_url(short_id: str, session_factory = Depends(get_session_factory)):
+    full_url = get_full_url(short_id, session_factory)
+
     if full_url is None:
         raise HTTPException(status_code=404, detail="Link not found")
-    return RedirectResponse(url=full_url[0], status_code=302)
+    return RedirectResponse(url=full_url, status_code=302)

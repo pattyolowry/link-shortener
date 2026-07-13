@@ -1,5 +1,6 @@
 import os
 from sqlmodel import Session, create_engine
+from typing import Callable
 
 DATABASE_URL = os.getenv(
     "DATABASE_URL", None
@@ -16,3 +17,6 @@ engine = create_engine(
 def get_session():
     with Session(engine) as session:
         yield session
+
+def get_session_factory() -> Callable[[], Session]:
+    return lambda: Session(engine)
