@@ -56,11 +56,11 @@ export const options = {
   scenarios: {
     redirects: {
       executor: "ramping-arrival-rate",
-      startRate: 1450,
+      startRate: 2000,
       timeUnit: "1s",
       preAllocatedVUs: 200,
       maxVUs: 2000,
-      stages: [{ duration: "300s", target: 1450 }],
+      stages: [{ duration: "300s", target: 2000 }],
     },
   },
   thresholds: {
@@ -90,6 +90,17 @@ export default function () {
   const passed = check(res, {
     "status is 302": (r) => r.status === 302,
   });
+
+  // const res = http.get(`${BASE_URL}/ping`, {
+  //   redirects: 0,
+  //   tags: {
+  //     name: "GET /ping",
+  //   },
+  // });
+
+  // const passed = check(res, {
+  //   "status is 200": (r) => r.status === 200,
+  // });
 
   if (!passed) {
     console.error(

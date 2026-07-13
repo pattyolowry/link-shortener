@@ -7,6 +7,6 @@ router = APIRouter()
 class PingResponse(BaseModel):
     message: str
 
-@router.get("/", response_model=PingResponse)
+@router.get("", response_model=PingResponse)
 def send_ping() -> Any:
     return { "message": "Hello World!"}

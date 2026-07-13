@@ -8,8 +8,8 @@ DATABASE_URL = os.getenv(
 engine = create_engine(
     DATABASE_URL,
     echo=False,
-    pool_size=5,
-    max_overflow=10,
+    pool_size=10,
+    max_overflow=5,
     pool_timeout=3,
 )
 
