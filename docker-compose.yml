@@ -30,7 +30,10 @@ services:
     cpus: "0.5"
     mem_limit: 512m
     environment:
-      - REDIS_ARGS=--appendonly yes
+      REDIS_ARGS: >-
+        --appendonly yes
+        --maxmemory 384mb
+        --maxmemory-policy volatile-lfu
     restart: unless-stopped
 
   postgres:

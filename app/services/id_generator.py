@@ -15,8 +15,8 @@ class ShortIDGenerator:
         self.redis = redis_client
         self.redis_counter_key = f"shortener:shard:{self.shard_id}:sequence"
 
-    async def get_new_id(self) -> int:
-        sequence = await self.redis.incrby(self.redis_counter_key, 1)
+    def get_new_id(self) -> int:
+        sequence = self.redis.incrby(self.redis_counter_key, 1)
         #unique_id = (self.shard_id << SEQUENCE_BITS) | (sequence)
         unique_id = (sequence << SHARD_BITS) | self.shard_id
         return self._base62_encode(unique_id)

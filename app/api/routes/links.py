@@ -25,8 +25,8 @@ class Url(BaseModel):
     fullUrl: AnyUrl
 
 @router.post("", response_model=NewLinkResponse, status_code=201)
-async def create_short_url(url: Url, session: SessionDep):
-    short_id = await short_id_generator.get_new_id()
+def create_short_url(url: Url, session: SessionDep):
+    short_id = short_id_generator.get_new_id()
     link = Link(
         short_id=short_id,
         full_url=str(url.fullUrl)
