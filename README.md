@@ -18,29 +18,30 @@ API Services: 4 vCPU / 2GB MEM \
 Postgres: 2 vCPU / 3GB MEM \
 Redis: 0.5 vCPU / 512MB MEM
 
-### Baseline (DB w/ 1mil rows and no indexes)
+### Add Redis LFU Cache
 
-Throughput: 40 RPS \
-P95 Latency: 19.57ms
-<img width="1654" height="1416" alt="image" src="https://github.com/user-attachments/assets/690aebad-5f66-42bb-a5a1-dd2322a6776b" />
+*Note: need to add a prom metric to track cache hit/miss rates
 
-### Index on short_id
+Throughput: 3298 RPS \
+P95 Latency: 7.7ms
+<img width="1702" height="1552" alt="image" src="https://github.com/user-attachments/assets/84aadb6b-96ff-43fe-af69-fbfb3a8b3391" />
 
-Throughput: 400 RPS \
-P95 Latency: 4.02ms
-<img width="1642" height="1400" alt="image" src="https://github.com/user-attachments/assets/2c9b0812-cc68-44bb-9c70-38b17a9f9ec5" />
+### Additional Optimizations
+- Disable default logs
+- Use SQLAlchemy Core for hot path. Avoids ORM model hydration and can reduce Python overhead.
+- Tune pool size. 10 persistent connections with 5 overflow. Reduces overhead from connections churning.
 
-### 2 workers
+Throughput: 2000 RPS \
+P95 Latency: 5.79ms
+<img width="1716" height="1442" alt="image" src="https://github.com/user-attachments/assets/b6192725-d12d-428d-99ba-c89fa793a166" />
 
-Throughput: 675 RPS \
-P95 Latency: 68.52ms
-<img width="1630" height="1418" alt="image" src="https://github.com/user-attachments/assets/87b7bcdb-2ea2-4f32-98d3-c2aae589b21e" />
+### Add PgBouncer
 
-### 4 Workers
+No expected performance improvement, just easier to manage the connection pool for Postgres
 
-Throughput: 1000 RPS \
-P95 Latency: 7.01ms
-<img width="1634" height="1410" alt="image" src="https://github.com/user-attachments/assets/80066024-5fda-456a-afc2-1873ec0f3322" />
+Throughput: 1450 RPS \
+P95 Latency: 5.29ms
+<img width="1678" height="1542" alt="image" src="https://github.com/user-attachments/assets/42eec88d-9809-4c11-9454-9fb0ea258616" />
 
 ### 8 Workers
 
@@ -54,22 +55,29 @@ Throughput: 1600 RPS \
 P95 Latency: 27.88ms
 <img width="1676" height="1422" alt="image" src="https://github.com/user-attachments/assets/e1443993-b2f0-4ba0-9f23-06d1a3a4edef" />
 
-### Add PgBouncer
+### 4 Workers
 
-No expected performance improvement, just easier to manage the connection pool for Postgres
+Throughput: 1000 RPS \
+P95 Latency: 7.01ms
+<img width="1634" height="1410" alt="image" src="https://github.com/user-attachments/assets/80066024-5fda-456a-afc2-1873ec0f3322" />
 
-Throughput: 1450 RPS \
-P95 Latency: 5.29ms
-<img width="1678" height="1542" alt="image" src="https://github.com/user-attachments/assets/42eec88d-9809-4c11-9454-9fb0ea258616" />
+### 2 workers
 
-### Additional Optimizations
-- Disable default logs
-- Use SQLAlchemy Core for hot path. Avoids ORM model hydration and can reduce Python overhead.
-- Tune pool size. 10 persistent connections with 5 overflow. Reduces overhead from connections churning.
+Throughput: 675 RPS \
+P95 Latency: 68.52ms
+<img width="1630" height="1418" alt="image" src="https://github.com/user-attachments/assets/87b7bcdb-2ea2-4f32-98d3-c2aae589b21e" />
 
-Throughput: 2000 RPS \
-P95 Latency: 5.79ms
-<img width="1716" height="1442" alt="image" src="https://github.com/user-attachments/assets/b6192725-d12d-428d-99ba-c89fa793a166" />
+### Index on short_id
+
+Throughput: 400 RPS \
+P95 Latency: 4.02ms
+<img width="1642" height="1400" alt="image" src="https://github.com/user-attachments/assets/2c9b0812-cc68-44bb-9c70-38b17a9f9ec5" />
+
+### Baseline (DB w/ 1mil rows and no indexes)
+
+Throughput: 40 RPS \
+P95 Latency: 19.57ms
+<img width="1654" height="1416" alt="image" src="https://github.com/user-attachments/assets/690aebad-5f66-42bb-a5a1-dd2322a6776b" />
 
 ## Bottlenecks Encountered
 
