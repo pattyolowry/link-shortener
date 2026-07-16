@@ -23,7 +23,8 @@ Redis: 0.5 vCPU / 512MB MEM
 *Note: need to add a prom metric to track cache hit/miss rates
 
 Throughput: 3298 RPS \
-P95 Latency: 7.7ms
+P95 Latency: 7.7ms \
+Cache Hit Rate: 91.9%
 <img width="1702" height="1552" alt="image" src="https://github.com/user-attachments/assets/84aadb6b-96ff-43fe-af69-fbfb3a8b3391" />
 
 ### Additional Optimizations
