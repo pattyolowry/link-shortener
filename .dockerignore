@@ -6,3 +6,6 @@ app.egg-info
 .coverage
 htmlcov
 .venv
+seed_links.csv
+.DS_Store
+.git
