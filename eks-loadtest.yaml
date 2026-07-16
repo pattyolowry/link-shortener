@@ -1,0 +1,34 @@
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: link-shortener-loadtest
+  region: us-east-1
+  version: "1.34"
+
+availabilityZones:
+  - us-east-1a
+  - us-east-1b
+  - us-east-1c
+
+iam:
+  withOIDC: true
+
+vpc:
+  nat:
+    gateway: Single
+
+managedNodeGroups:
+  - name: api-loadtest-c6i
+    instanceType: c6i.2xlarge
+    desiredCapacity: 3
+    minSize: 3
+    maxSize: 6
+    privateNetworking: true
+    volumeSize: 80
+    amiFamily: AmazonLinux2023
+    labels:
+      workload: api-loadtest
+    tags:
+      project: link-shortener
+      environment: loadtest
