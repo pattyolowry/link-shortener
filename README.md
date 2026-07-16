@@ -18,6 +18,8 @@ API Services: 4 vCPU / 2GB MEM \
 Postgres: 2 vCPU / 3GB MEM \
 Redis: 0.5 vCPU / 512MB MEM
 
+Traffic Pattern: 90% of traffic to 10% of "hot" urls
+
 ### Add Redis LFU Cache
 
 *Note: need to add a prom metric to track cache hit/miss rates
